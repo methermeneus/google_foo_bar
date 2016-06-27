@@ -1,0 +1,7 @@
+#!/bin/bash
+
+echo "algo           	-algorithms
+data_struct    	-data structures
+low_level      	-low-level representation (binary representations, endianness)
+math           	-math
+crypto         	-security and cryptography"

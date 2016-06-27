@@ -1,0 +1,108 @@
+def answer (names):
+    """
+    Reason doesn't matter. Just... Put names in order of magnitude, greatest to
+    least. Magnitude is the sum of all the letters' places in the alphabet. So,
+    Annie = 43, Liz = 47, and Bonnie = 59 (which means these three names should
+    be in the opposite order). Where names have the same value, put them in
+    reverse alphabetical order: So, since Al and CJ both = 13, the order should
+    be CJ, Al.
+
+    That's it.
+
+    Alphabetical order is easy. Just put all names of the same value through a
+    sort. The real problem seems to be sorting the names by value in the first
+    place.
+    """
+    # Don't process if we don't need to.
+    if len(names) == 1:
+        return names
+
+
+    # I need direct values; Python doesn't seem to put these numbers in the
+    # right order otherwise.
+    def numberize (name):
+        namenum = 0
+        alphanum=['0','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
+        for i in range (0,len(name)):
+            namenum += alphanum.index(name[i])
+        return namenum
+
+    # Quicksort, because why not?
+    def quicksort (array, low, high):
+        if low < high:
+            p = partition (array, low, high)
+            quicksort (array, low, p-1)
+            quicksort (array, p+1, high)
+
+    def partition (array, low, high):
+        pivot = array [high]
+        i = low
+        for j in range (low, high - 1):
+            if array[j] <= pivot:
+                array[i], array[j] = array[j], array[i]
+                i += 1
+        array[i], array[high] = array[high], array[i]
+        return i
+
+    # Because it's easier if already=in-order stuff stays in order, that's why
+    # not!
+    def bubblesort (array):
+        n = len(array)
+        swapped = True
+        while swapped:
+            swapped = False
+            for i in range (1, n - 1):
+                if array[i-1] > array[i]:
+                    array[i-1], array[i] = array[i], array[i-1]
+                    swapped = True
+
+    # Still getting weird results with bubblesort. Insert sort is more
+    # efficient anyway, and I KNOW it preserves order of equal items, rather
+    # than just thinking it does. I just wish I knew why bubble sort got the
+    # first list wrong.
+    def insert_sort (array):
+        for i in range (1, len(array) - 1):
+            j = i
+            while (j > 0) and (array[j-1] > array[j]):
+                array[j], array[j-1] = array[j-1], array[j]
+                j -= 1
+
+    for i in range(0,len(names)):
+        x=numberize (names[i])
+        xstr=''
+        if x < 10:
+            xstr='000'+str(x)
+        elif x < 100:
+            xstr='00'+str(x)
+        elif x < 1000:
+            xstr='0'+str(x)
+        else:
+            xstr=str(x)
+        names[i] = xstr + names[i]
+
+    insert_sort (names)
+    for i in range (0,len(names)):
+        names[i] = names[i][4:]
+    #namenums=[]
+    #for i in range (0,len(names)):
+        #namenums.append(int(names[i][:4]))
+        #names[i] = names[i][4:]
+    #same_start = -1
+    #same_end = 0
+
+    #for i in range (1, len(names)):
+        #if namenums[i] == namenums[i-1]:
+            #if same_start < 0:
+                #same_start = i - 1
+                #same_end = i
+            #else:
+                #same_end = i
+        #else:
+            #if same_start >= 0:
+                #bubblesort (names)#,same_start, same_end)
+                #same_start = -1
+                #same_end = 0
+    names.reverse()
+
+    return names
+
