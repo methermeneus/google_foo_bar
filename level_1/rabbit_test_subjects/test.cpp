@@ -1,8 +1,6 @@
 #include <cstdio>
 #include "./solution.cpp"
 
-char* arraystr (Array);
-
 int main (int argc, char** argv) {
 
 	double y1array[] = {1.0};
